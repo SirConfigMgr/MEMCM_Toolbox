@@ -20,3 +20,7 @@ The script checks the distribution status of all content and retriggers the dist
 **Sync-MECMDirectCollectionMembershipRules.ps1**
 
 The script queries all direct membership rules of a computer and adds the new computer to the same collections.
+
+**Import-MECMComputerFromFolder.ps1**
+
+The script imports computers into MECM, adds them to a collection and sets variables. Three CSV files are read for the import, respectively for importing the computers (import-computer.csv), adding them to a collection (add-collection.csv) and setting the variables (set-variable.csv). 
