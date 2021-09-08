@@ -56,16 +56,32 @@ param (
 
     $Device = Get-WmiObject -Computername $Siteserver -Namespace "root\sms\site_$SiteCode" -Query "SELECT * FROM SMS_R_System WHERE Name = '$($DN)'"
     $MachineSettings = Get-WmiObject -Computername $Siteserver -Namespace "root\sms\site_$SiteCode" -Query "SELECT * FROM SMS_MachineSettings WHERE ResourceID = '$($Device.ResourceID)'"
+    $SMSMachineSettings = [WmiClass]"\\$($Siteserver)\ROOT\SMS\site_$($SiteCode):SMS_MachineSettings"
 
     If ($MachineSettings -ne $null){
-        $MachineSettings.Get()  
-        $VariableIndex = $MachineSettings.MachineVariables.length
-        $MachineSettings.MachineVariables = $MachineSettings.MachineVariables += [WmiClass]"\\$($Siteserver)\ROOT\SMS\site_$($SiteCode):SMS_MachineVariable"
+        $MachineSettings.Get()
+        If ($MachineSettings.MachineVariables.length -ne 0){$VariableIndex = $MachineSettings.MachineVariables.length}
+        Else {$VariableIndex = 0}
 
+        $MachineSettings.MachineVariables = $MachineSettings.MachineVariables += [WmiClass]"\\$($Siteserver)\ROOT\SMS\site_$($SiteCode):SMS_MachineVariable"
         $MachineVariables = $MachineSettings.MachineVariables
-        $MachineVariables[$VariableIndex].name=$VN
-        $MachineVariables[$VariableIndex].value=$VV
-        $MachineVariables[$VariableIndex].ismasked = $VM
+        $MachineVariables[$VariableIndex].Name=$VN
+        $MachineVariables[$VariableIndex].Value=$VV
+        $MachineVariables[$VariableIndex].Ismasked = $VM
+
+        $MachineSettings.MachineVariables = $MachineVariables
+        $MachineSettings.put()
+        }
+    Else {
+        $MachineSettings = $SMSMachineSettings.CreateInstance()
+        $MachineSettings.psbase.properties["ResourceID"].value = $($Device.ResourceID)
+        $MachineSettings.psbase.properties["SourceSite"].value = $($SiteCode)
+        $MachineSettings.psbase.properties["LocaleID"].value = 1031
+        $MachineSettings.MachineVariables = $MachineSettings.MachineVariables + [WmiClass]"\\$($Siteserver)\ROOT\SMS\site_$($SiteCode):SMS_MachineVariable"
+        $MachineVariables = $MachineSettings.MachineVariables
+        $MachineVariables[0].Name=$VN
+        $MachineVariables[0].Value=$VV
+        $MachineVariables[0].Ismasked = $VM
 
         $MachineSettings.MachineVariables = $MachineVariables
         $MachineSettings.put()
