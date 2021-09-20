@@ -83,10 +83,12 @@ param (
 
 $OldDevice = Get-WmiObject -Computername $Siteserver -Namespace "root\sms\site_$SiteCode" -Query "SELECT * FROM SMS_R_System WHERE Name = '$($DN)'"
 If ($OldDevice) {
-    $Error.clear()
-    $OldDevice.psbase.delete() | Out-Null
-    If ($Error) {Write-Host -ForegroundColor White -BackgroundColor DarkRed "Failed To Delete Old $OldDevice"}
-    Else {Write-Host -ForegroundColor White -BackgroundColor DarkGreen "Deleted Old $OldDevice"}
+    Foreach ($OD in $OldDevice) {
+        $Error.clear()
+        $OD.psbase.delete() | Out-Null
+        If ($Error) {Write-Host -ForegroundColor White -BackgroundColor DarkRed "Failed To Delete Old $OD"}
+        Else {Write-Host -ForegroundColor White -BackgroundColor DarkGreen "Deleted Old $OD"}
+        }
     }
 $Error.clear()
 Invoke-WmiMethod -Namespace root/SMS/site_$($SiteCode) -Class SMS_Site -Name ImportMachineEntry -ArgumentList @($null, $null, $null, $null, $null, $null, $MAC, $null, $DN, $True, $null, $null) -ComputerName $SiteServer | Out-Null
