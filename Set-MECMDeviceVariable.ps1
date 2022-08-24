@@ -28,10 +28,10 @@
     MEMCM Site Code 
 
     .EXAMPLE
-    PS> Set-MECMDeviceVariable -DeviceName "ABC001" -VariableName "Var1" -VariableValue "Value1" -VariableMasked $false -$SiteServer "memcm.domain.com" -SiteCode "AA1"
+    PS> Set-MECMDeviceVariable -DeviceName "ABC001" -VariableName "Var1" -VariableValue "Value1" -VariableMasked $false -SiteServer "memcm.domain.com" -SiteCode "AA1"
 
     .EXAMPLE
-    PS> Set-MECMDeviceVariable -ImportFile "C:\Import.csv" -$SiteServer "memcm.domain.com" -SiteCode "AA1"
+    PS> Set-MECMDeviceVariable -ImportFile "C:\Import.csv" -SiteServer "memcm.domain.com" -SiteCode "AA1"
 #>
 
 param(
