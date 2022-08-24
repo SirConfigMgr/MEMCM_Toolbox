@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    This script removes the direct memberships of a specified collection.
+    This script removes the direct memberships of a specified collection (User or Device).
 .PARAMETER SiteServer
     FQDN of the MEMCM Site Server
 .PARAMETER SiteCode
