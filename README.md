@@ -24,3 +24,7 @@ The script queries all direct membership rules of a computer and adds the new co
 **Import-MECMComputerFromFolder.ps1**
 
 The script imports computers into MECM, adds them to a collection and sets variables. Three CSV files are read for the import, respectively for importing the computers (import-computer.csv), adding them to a collection (add-collection.csv) and setting the variables (set-variable.csv). 
+
+**Remove-DirectMembership.ps1**
+
+This script removes the direct memberships of a specified collection (User or Device).
