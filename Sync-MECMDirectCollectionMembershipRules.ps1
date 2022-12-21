@@ -28,11 +28,22 @@ param (
     [Parameter(Mandatory=$true)][String]$SiteServer,
     [Parameter(Mandatory=$true)][String]$SiteCode
     )
-    $NewDeviceResourceID = (Get-CMDevice -Name $NewDevice).ResourceID
-    $Collections = (Get-WmiObject -ComputerName $SiteServer  -Namespace root/SMS/site_$SiteCode -Query "SELECT SMS_Collection.* FROM SMS_FullCollectionMembership, SMS_Collection where name = '$OldDevice' and SMS_FullCollectionMembership.CollectionID = SMS_Collection.CollectionID").Name
-    Foreach ($Collection in $Collections) {
-        $DirectCollectionMembership = Get-CMDeviceCollectionDirectMembershipRule -ResourceName $Device -CollectionName $Collection
-        If ($DirectCollectionMembership) {Add-CMDeviceCollectionDirectMembershipRule -CollectionName $Collection -ResourceId $NewDeviceResourceID} 
-        }
+    
+if((Get-Module ConfigurationManager) -eq $null) {
+    Import-Module "$($ENV:SMS_ADMIN_UI_PATH)\..\ConfigurationManager.psd1"
+}
+
+if((Get-PSDrive -Name $SiteCode -PSProvider CMSite -ErrorAction SilentlyContinue) -eq $null) {
+    New-PSDrive -Name $SiteCode -PSProvider CMSite -Root $SiteServer
+}
+
+Set-Location "$($SiteCode):\"
+
+$NewDeviceResourceID = (Get-CMDevice -Name $NewDevice).ResourceID
+$Collections = (Get-WmiObject -ComputerName $SiteServer  -Namespace root/SMS/site_$SiteCode -Query "SELECT SMS_Collection.* FROM SMS_FullCollectionMembership, SMS_Collection where name = '$OldDevice' and SMS_FullCollectionMembership.CollectionID = SMS_Collection.CollectionID").Name
+Foreach ($Collection in $Collections) {
+    $DirectCollectionMembership = Get-CMDeviceCollectionDirectMembershipRule -ResourceName $OldDevice -CollectionName $Collection
+    If ($DirectCollectionMembership) {Add-CMDeviceCollectionDirectMembershipRule -CollectionName $Collection -ResourceId $NewDeviceResourceID} 
+    }
 
 
