@@ -58,7 +58,7 @@ If ($All) {
     Foreach ($Device in $Devices) {
         $Variables = Get-CMDeviceVariable -DeviceName $Device
         Foreach ($Variable in $Variables) {
-            $DV = [pscustomobject]@{'Device'=$Device.Name;'VariableName'=$Variable.Name;'VariableValue'=$Variable.Value}
+            $DV = [pscustomobject]@{'Device'=$Device;'VariableName'=$Variable.Name;'VariableValue'=$Variable.Value}
             $DeviceVariables.add($DV)
             $DV = $null
             }
