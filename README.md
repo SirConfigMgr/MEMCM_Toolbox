@@ -28,3 +28,7 @@ The script imports computers into MECM, adds them to a collection and sets varia
 **Remove-DirectMembership.ps1**
 
 This script removes the direct memberships of a specified collection (User or Device).
+
+**Invoke-DynamicAppInstall.ps1**
+
+The script is intended for execution within an MCM task sequence and creates a list of applications that are assigned to the primary users of the device and the device itself in order to install them dynamically in the "Install application" or "Install package" step.
