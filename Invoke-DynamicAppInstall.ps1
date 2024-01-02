@@ -1,28 +1,48 @@
-﻿<#	
-	.NOTES
-	===========================================================================
-	 Created on:   	2022.09.05
-	 Last Updated:  2023.12.14
-         Version:       1.2
-	 Author:		Rene Hartmann
-	 Filename:     	Invoke-DynamicAppInstall.ps1
-	===========================================================================
-	.DESCRIPTION
-		The script is intended for execution within an MCM task sequence and creates a list of applications that are assigned to the primary users of the device and the device itself in order to install them dynamically in the "Install application" or "Install package" step.
+<#	
+    .SYNOPSIS
+    Install user and machine targeted software dynamic in OSD.
+
+    .NOTES
+    Created on:    2022.09.05
+    Last Updated:  2023.12.14
+    Version:       1.2
+    Author:        Rene Hartmann
+    Filename:      Invoke-DynamicAppInstall.ps1
+
+    .DESCRIPTION
+    The script is intended for execution within an MCM task sequence and creates a list of applications that are assigned to the primary users of the device and the device itself in order to install them dynamically in the "Install application" or "Install package" step.
+
+    .PARAMETER SiteServer
+    FQDN of the MEMCM Site Server
+
+    .PARAMETER SiteCode
+    MEMCM Site Code
+
+    .PARAMETER LogPath
+    Path where the log file is saved
+
+    .PARAMETER ResourceName
+    Name of the computer that is currently being installed
+
+    .PARAMETER UserApps
+    Query and install user targeted apps (True/False)
+
+    .PARAMETER MachineApps
+    Query and install machine targeted apps (True/False)
 
     .CHANGELOG
-        v1.0
-        Initial creation
+    v1.0
+    Initial creation
 
-        v1.1
-        Added Logging
+    v1.1
+    Added Logging
 
-        v1.2
-        Added Application Groups
+    v1.2
+    Added Application Groups
 
     .LINK
-        https://sirconfigmgr.de/
-        https://github.com/SirConfigMgr/MEMCM_Toolbox
+    https://sirconfigmgr.de/osd-install-dynamic-software/
+    https://github.com/SirConfigMgr/MEMCM_Toolbox
 
 #>
 
