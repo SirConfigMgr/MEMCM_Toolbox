@@ -32,3 +32,7 @@ This script removes the direct memberships of a specified collection (User or De
 **Invoke-DynamicAppInstall.ps1**
 
 The script is intended for execution within an MCM task sequence and creates a list of applications that are assigned to the primary users of the device and the device itself in order to install them dynamically in the "Install application" or "Install package" step.
+
+**Get-TSReference.ps1**
+
+The script queries task sequence references for an object and list relevant information
